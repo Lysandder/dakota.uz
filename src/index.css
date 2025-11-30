@@ -43,6 +43,9 @@
     --luxury-cream: 35 30% 92%;
     --luxury-beige: 30 20% 85%;
     --luxury-gold: 38 60% 55%;
+    --luxury-white: 0 0% 100%;
+    --section-light-bg: 0 0% 100%;
+    --section-light-fg: 14 52% 20%;
 
     /* Typography */
     --font-serif: 'Cormorant Garamond', Georgia, serif;

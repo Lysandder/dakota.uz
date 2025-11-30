@@ -14,7 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sofa_comments: {
+        Row: {
+          created_at: string
+          id: string
+          sofa_id: string
+          text_ru: string | null
+          text_uz: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          sofa_id: string
+          text_ru?: string | null
+          text_uz?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          sofa_id?: string
+          text_ru?: string | null
+          text_uz?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sofa_comments_sofa_id_fkey"
+            columns: ["sofa_id"]
+            isOneToOne: false
+            referencedRelation: "sofas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sofa_images: {
+        Row: {
+          alt: string | null
+          created_at: string
+          id: string
+          sofa_id: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          sofa_id: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          sofa_id?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sofa_images_sofa_id_fkey"
+            columns: ["sofa_id"]
+            isOneToOne: false
+            referencedRelation: "sofas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sofa_section_items: {
+        Row: {
+          created_at: string
+          id: string
+          key_ru: string
+          key_uz: string
+          section_id: string
+          sort_order: number
+          value_ru: string
+          value_uz: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key_ru: string
+          key_uz: string
+          section_id: string
+          sort_order?: number
+          value_ru: string
+          value_uz: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key_ru?: string
+          key_uz?: string
+          section_id?: string
+          sort_order?: number
+          value_ru?: string
+          value_uz?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sofa_section_items_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "sofa_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sofa_sections: {
+        Row: {
+          created_at: string
+          heading_ru: string
+          heading_uz: string
+          id: string
+          sofa_id: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          heading_ru: string
+          heading_uz: string
+          id?: string
+          sofa_id: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          heading_ru?: string
+          heading_uz?: string
+          id?: string
+          sofa_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sofa_sections_sofa_id_fkey"
+            columns: ["sofa_id"]
+            isOneToOne: false
+            referencedRelation: "sofas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sofas: {
+        Row: {
+          created_at: string
+          id: string
+          name_ru: string
+          name_uz: string
+          on_sale: boolean
+          price: number
+          sale_price: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name_ru: string
+          name_uz: string
+          on_sale?: boolean
+          price: number
+          sale_price?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name_ru?: string
+          name_uz?: string
+          on_sale?: boolean
+          price?: number
+          sale_price?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

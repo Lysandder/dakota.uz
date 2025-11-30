@@ -5,13 +5,16 @@ import { Sofa } from '@/data/mockData';
 
 interface SofaCardProps {
   sofa: Sofa;
+  variant?: 'dark' | 'light';
 }
 
-const SofaCard = ({ sofa }: SofaCardProps) => {
+const SofaCard = ({ sofa, variant = 'dark' }: SofaCardProps) => {
   const { language, t } = useLanguage();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isDark = variant === 'dark';
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -45,9 +48,16 @@ const SofaCard = ({ sofa }: SofaCardProps) => {
     return new Intl.NumberFormat('ru-RU').format(price);
   };
 
+  // Dynamic colors based on variant
+  const bgClass = isDark ? 'bg-card' : 'bg-[hsl(var(--section-light-bg))]';
+  const textClass = isDark ? 'text-foreground' : 'text-[hsl(var(--section-light-fg))]';
+  const mutedClass = isDark ? 'text-muted-foreground' : 'text-[hsl(var(--section-light-fg))]/60';
+  const indicatorActive = isDark ? 'bg-foreground' : 'bg-[hsl(var(--section-light-fg))]';
+  const indicatorInactive = isDark ? 'bg-foreground/30' : 'bg-[hsl(var(--section-light-fg))]/30';
+
   return (
     <Link to={`/sofa/${sofa.id}`} className="block group">
-      <div className="luxury-card">
+      <div className={`${bgClass} rounded-sm overflow-hidden transition-all duration-500 hover:-translate-y-1`}>
         {/* Image Gallery */}
         <div
           className="relative aspect-[4/3] bg-luxury-brown-light overflow-hidden"
@@ -60,7 +70,7 @@ const SofaCard = ({ sofa }: SofaCardProps) => {
               onScroll={handleScroll}
               className="flex overflow-x-auto snap-x-mandatory scrollbar-hide h-full"
             >
-              {sofa.images.map((image, index) => (
+              {sofa.images.map((image) => (
                 <div key={image.id} className="flex-shrink-0 w-full h-full snap-start">
                   <img
                     src={image.url}
@@ -86,7 +96,7 @@ const SofaCard = ({ sofa }: SofaCardProps) => {
                 <div
                   key={index}
                   className={`h-0.5 flex-1 rounded-full transition-all duration-200 ${
-                    index === activeImageIndex ? 'bg-foreground' : 'bg-foreground/30'
+                    index === activeImageIndex ? indicatorActive : indicatorInactive
                   }`}
                 />
               ))}
@@ -100,7 +110,7 @@ const SofaCard = ({ sofa }: SofaCardProps) => {
                 <div
                   key={index}
                   className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                    index === activeImageIndex ? 'bg-foreground' : 'bg-foreground/40'
+                    index === activeImageIndex ? indicatorActive : indicatorInactive
                   }`}
                 />
               ))}
@@ -110,21 +120,21 @@ const SofaCard = ({ sofa }: SofaCardProps) => {
 
         {/* Content */}
         <div className="p-4 md:p-5">
-          <h3 className="font-serif text-lg md:text-xl font-light text-foreground mb-2 tracking-wide group-hover:opacity-70 transition-opacity">
+          <h3 className={`font-serif text-xl md:text-2xl font-light ${textClass} mb-2 tracking-wide group-hover:opacity-70 transition-opacity`}>
             {sofa.name[language]}
           </h3>
           <div className="flex items-baseline gap-3">
             {sofa.onSale && sofa.salePrice ? (
               <>
-                <span className="text-destructive font-medium">
+                <span className="text-destructive font-light text-sm md:text-base">
                   {formatPrice(sofa.salePrice)} {t('price.currency')}
                 </span>
-                <span className="text-muted-foreground line-through text-sm">
+                <span className={`${mutedClass} line-through text-xs md:text-sm font-light`}>
                   {formatPrice(sofa.price)} {t('price.currency')}
                 </span>
               </>
             ) : (
-              <span className="text-foreground/90 font-medium">
+              <span className={`${mutedClass} font-light text-sm md:text-base`}>
                 {formatPrice(sofa.price)} {t('price.currency')}
               </span>
             )}
