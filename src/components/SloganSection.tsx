@@ -9,16 +9,16 @@ const SloganSection = ({ slogan }: SloganSectionProps) => {
   const { language } = useLanguage();
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-[hsl(var(--section-light-bg))]">
       <div className="luxury-container max-w-3xl text-center">
-        <div className="luxury-divider mb-8" />
-        <h2 className="font-serif text-2xl md:text-3xl font-light text-foreground mb-6 tracking-wide">
+        <div className="w-16 h-px bg-[hsl(var(--section-light-fg))]/30 mx-auto mb-8" />
+        <h2 className="font-serif text-2xl md:text-3xl font-light text-[hsl(var(--section-light-fg))] mb-6 tracking-wide">
           {slogan.title[language]}
         </h2>
-        <p className="luxury-text text-foreground/70 leading-relaxed">
+        <p className="luxury-text text-[hsl(var(--section-light-fg))]/70 leading-relaxed">
           {slogan.text[language]}
         </p>
-        <div className="luxury-divider mt-8" />
+        <div className="w-16 h-px bg-[hsl(var(--section-light-fg))]/30 mx-auto mt-8" />
       </div>
     </section>
   );
