@@ -16,7 +16,7 @@ const Footer = ({ data }: FooterProps) => {
         <div className="text-center mb-10">
           <h2 className="brand-name text-foreground mb-2">Dakota</h2>
           <p className="text-sm text-muted-foreground tracking-wide">
-            {t('footer.owner')}
+            <!-- {t('footer.owner')} -->
           </p>
         </div>
 
