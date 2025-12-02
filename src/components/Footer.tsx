@@ -15,9 +15,11 @@ const Footer = ({ data }: FooterProps) => {
       <div className="luxury-container">
         <div className="text-center mb-10">
           <h2 className="brand-name text-foreground mb-2">Dakota</h2>
+          /*
           <p className="text-sm text-muted-foreground tracking-wide">
-            <!-- {t('footer.owner')} -->
+            {t('footer.owner')}
           </p>
+          */
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-10">
