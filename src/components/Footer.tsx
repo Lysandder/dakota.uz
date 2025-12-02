@@ -72,7 +72,7 @@ const Footer = ({ data }: FooterProps) => {
 
         <div className="text-center">
           <p className="text-xs text-muted-foreground">
-            © {currentYear} Dakota. {t('footer.rights')}
+            © {currentYear} High Level Sofa. {t('footer.rights')}
           </p>
         </div>
       </div>
