@@ -38,16 +38,14 @@ const SofasPreview = ({ sofas, limit = 4 }: SofasPreviewProps) => {
           ))}
         </div>
 
-        {sofas.filter(s => !s.onSale).length > limit && (
-          <div className="text-center mt-10 md:mt-12">
-            <Link 
-              to="/sofas" 
-              className="px-8 py-3 border border-[hsl(var(--section-light-fg))]/30 text-sm tracking-widest uppercase font-light text-[hsl(var(--section-light-fg))] transition-all duration-300 hover:bg-[hsl(var(--section-light-fg))] hover:text-[hsl(var(--section-light-bg))] inline-block"
-            >
-              {t('button.more')}
-            </Link>
-          </div>
-        )}
+        <div className="text-center mt-10 md:mt-12">
+          <Link 
+            to="/sofas" 
+            className="px-8 py-3 border border-[hsl(var(--section-light-fg))]/30 text-sm tracking-widest uppercase font-light text-[hsl(var(--section-light-fg))] transition-all duration-300 hover:bg-[hsl(var(--section-light-fg))] hover:text-[hsl(var(--section-light-bg))] inline-block"
+          >
+            {t('section.all_sofas')}
+          </Link>
+        </div>
       </div>
     </section>
   );
