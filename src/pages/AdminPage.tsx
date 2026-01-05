@@ -1,22 +1,25 @@
 import { useState } from 'react';
-import { Lock } from 'lucide-react';
+import { Lock, ArrowLeft, Sofa, Image, FileText, Phone, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import AdminSofasSection from '@/components/admin/AdminSofasSection';
+
+type AdminSection = 'menu' | 'sofas' | 'banners' | 'translations' | 'footer' | 'slogan';
 
 const AdminPage = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(false);
+  const [activeSection, setActiveSection] = useState<AdminSection>('menu');
   const { t } = useLanguage();
   const { toast } = useToast();
 
   const getTodayPassword = () => {
-    // Get current date in UTC+5 (Tashkent timezone)
     const now = new Date();
     const utcOffset = now.getTimezoneOffset() * 60000;
-    const tashkentOffset = 5 * 60 * 60 * 1000; // UTC+5
+    const tashkentOffset = 5 * 60 * 60 * 1000;
     const tashkentTime = new Date(now.getTime() + utcOffset + tashkentOffset);
 
     const day = String(tashkentTime.getDate()).padStart(2, '0');
@@ -39,11 +42,15 @@ const AdminPage = () => {
     }
   };
 
-  const handleSectionClick = (sectionName: string) => {
-    toast({
-      title: t('admin.coming_soon.title'),
-      description: `${sectionName}: ${t('admin.coming_soon.desc')}`,
-    });
+  const handleSectionClick = (section: AdminSection) => {
+    if (section === 'sofas') {
+      setActiveSection('sofas');
+    } else {
+      toast({
+        title: t('admin.coming_soon.title'),
+        description: `${t('admin.coming_soon.desc')}`,
+      });
+    }
   };
 
   if (!isAuthenticated) {
@@ -77,40 +84,65 @@ const AdminPage = () => {
     );
   }
 
+  // Main admin panel
   return (
     <div className="min-h-screen bg-background">
       <div className="luxury-container py-8">
-        <h1 className="luxury-title text-foreground mb-8">Admin Panel</h1>
+        {activeSection !== 'menu' && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setActiveSection('menu')}
+            className="mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Назад в меню
+          </Button>
+        )}
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <AdminCard
-            title="Banners"
-            description="Manage hero banners and carousels"
-            onClick={() => handleSectionClick('Banners')}
-          />
-          <AdminCard
-            title="Sofas"
-            description="Add, edit, or remove sofa products"
-            onClick={() => handleSectionClick('Sofas')}
-          />
-          <AdminCard
-            title="Translations"
-            description="Update text content for all languages"
-            onClick={() => handleSectionClick('Translations')}
-          />
-          <AdminCard
-            title="Footer"
-            description="Edit contact information and links"
-            onClick={() => handleSectionClick('Footer')}
-          />
-          <AdminCard
-            title="Slogan"
-            description="Update brand slogan section"
-            onClick={() => handleSectionClick('Slogan')}
-          />
-        </div>
+        {activeSection === 'menu' && (
+          <>
+            <h1 className="luxury-title text-foreground mb-8">Admin Panel</h1>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <AdminCard
+                title="Диваны"
+                description="Добавить, редактировать или удалить диваны"
+                icon={<Sofa className="w-6 h-6" />}
+                onClick={() => handleSectionClick('sofas')}
+                active
+              />
+              <AdminCard
+                title="Баннеры"
+                description="Управление баннерами и каруселью"
+                icon={<Image className="w-6 h-6" />}
+                onClick={() => handleSectionClick('banners')}
+              />
+              <AdminCard
+                title="Переводы"
+                description="Обновить текст для всех языков"
+                icon={<FileText className="w-6 h-6" />}
+                onClick={() => handleSectionClick('translations')}
+              />
+              <AdminCard
+                title="Футер"
+                description="Контактная информация и ссылки"
+                icon={<Phone className="w-6 h-6" />}
+                onClick={() => handleSectionClick('footer')}
+              />
+              <AdminCard
+                title="Слоган"
+                description="Обновить раздел слогана бренда"
+                icon={<MessageSquare className="w-6 h-6" />}
+                onClick={() => handleSectionClick('slogan')}
+              />
+            </div>
+            <p className="text-muted-foreground text-center mt-12 text-sm">
+              Разделы кроме "Диваны" находятся в разработке.
+            </p>
+          </>
+        )}
 
-        <p className="text-muted-foreground text-center mt-12 text-sm">{t('admin.demo_note')}</p>
+        {activeSection === 'sofas' && <AdminSofasSection />}
       </div>
     </div>
   );
@@ -119,19 +151,31 @@ const AdminPage = () => {
 const AdminCard = ({
   title,
   description,
+  icon,
   onClick,
+  active,
 }: {
   title: string;
   description: string;
+  icon: React.ReactNode;
   onClick: () => void;
+  active?: boolean;
 }) => (
   <button
     type="button"
     onClick={onClick}
-    className="p-6 rounded-sm bg-card border border-border hover:border-foreground/30 transition-colors text-left"
+    className={`p-6 rounded-sm bg-card border transition-colors text-left flex gap-4 items-start ${
+      active 
+        ? 'border-foreground/50 hover:border-foreground' 
+        : 'border-border hover:border-foreground/30 opacity-60'
+    }`}
   >
-    <h3 className="font-serif text-xl text-foreground mb-2">{title}</h3>
-    <p className="text-sm text-muted-foreground">{description}</p>
+    <div className="text-foreground/70">{icon}</div>
+    <div>
+      <h3 className="font-serif text-xl text-foreground mb-2">{title}</h3>
+      <p className="text-sm text-muted-foreground">{description}</p>
+      {!active && <span className="text-xs text-muted-foreground mt-2 block">(скоро)</span>}
+    </div>
   </button>
 );
 
